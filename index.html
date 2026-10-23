@@ -732,7 +732,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
 
     </div>
     <div class="panel">
-      <h3 style="margin-bottom:2px">Lo que se pronostica · octubre 2026 → abril 2027</h3>
+      <h3 style="margin-bottom:2px">Lo que se pronostica, octubre 2026 → abril 2027: <span id="map-delta" style="color:var(--nino)">diferencia (Δ) frente a la lluvia normal del mes (mm)</span></h3>
       <div class="vid-bar">
         <div class="toggle" id="an-var"><button class="on" data-f="Rain">Lluvia</button><button data-f="T2m">Temperatura</button></div>
         <div class="vid-months" id="an-months"></div>
@@ -1008,13 +1008,13 @@ BUILD[2] = function(){
     series:[Object.assign({}, GEOOPT, {type:'map', data:GEO.features.map(f=>({name:f.properties.name, value:CAB_PAISES.includes(f.properties.name)?1:0})), itemStyle:{areaColor:'transparent', borderColor:'rgba(38,40,54,.6)', borderWidth:1}, emphasis:{disabled:true}, select:{disabled:true}, label:{show:false}, silent:true, zlevel:2})]
   }), true);
   function draw(){
-    const key=varn+'_m'+(mi+1);
+    const key=varn+'_m'+(mi+1); const md=document.getElementById('map-delta'); if(md) md.textContent=varn==='T2m'?'diferencia (Δ) frente a la temperatura normal del mes (°C)':'diferencia (Δ) frente a la lluvia normal del mes (mm)';
     [...mdiv.children].forEach((b,i)=>{ b.classList.toggle('on',i===mi); b.classList.toggle('past',i<mi); });
     let a,b; try{ a=ch.convertToPixel('geo',[grid.lon0,grid.lat0]); b=ch.convertToPixel('geo',[grid.lon1,grid.lat1]); }catch(e){ return; }
     ch.setOption({graphic:[
       {id:'img', type:'image', zlevel:1, silent:true, style:{image:canvasOf(key), x:a[0], y:a[1], width:b[0]-a[0], height:b[1]-a[1]}},
       {id:'t1', type:'text', zlevel:3, right:14, top:6, style:{text:MON[mi], fill:C.fg, fontSize:22, fontFamily:'Inter', fontWeight:600}},
-      {id:'t2', type:'text', zlevel:3, right:14, top:32, style:{text:varn==='T2m'?'Diferencia (Δ) frente a la temperatura normal del mes (°C)':'Diferencia (Δ) frente a la lluvia normal del mes (mm)', fill:C.muted, fontSize:13.5, fontFamily:FONT}}]});
+      {id:'t2', type:'text', zlevel:3, right:14, top:32, style:{text:'', fill:C.muted, fontSize:11, fontFamily:FONT}}]});
   }
   // tooltip propio por celda
   let tip=document.getElementById('an-tip'); if(!tip){ tip=document.createElement('div'); tip.id='an-tip'; tip.className='ft-tip'; document.body.appendChild(tip); }
