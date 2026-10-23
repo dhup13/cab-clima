@@ -254,8 +254,8 @@ table.t tr:last-child td{border-bottom:0}
 .closing em{font-style:normal;font-weight:600;color:var(--aon-2)}
 
 /* ---------------- notas del presentador */
-.notes{position:fixed;right:0;top:var(--topbar);bottom:0;width:360px;background:var(--bg-2);border-left:1px solid var(--rule);padding:20px 22px;overflow:auto;transform:translateX(100%);transition:transform .25s;z-index:28;font-size:16px;line-height:1.55;color:var(--fg-2)}
-.notes.open{transform:none}
+.notes{visibility:hidden;position:fixed;right:0;top:var(--topbar);bottom:0;width:360px;background:var(--bg-2);border-left:1px solid var(--rule);padding:20px 22px;overflow:auto;transform:translateX(100%);transition:transform .25s,visibility 0s .25s;z-index:28;font-size:16px;line-height:1.55;color:var(--fg-2)}
+.notes.open{transform:none;visibility:visible;transition:transform .25s,visibility 0s}
 .notes h4{margin:0 0 4px;font-size:14.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .notes .t{font-family:var(--display);font-size:25px;color:var(--fg);font-weight:300;margin-bottom:10px}
 .notes ul{padding-left:16px;margin:0 0 14px}
@@ -528,7 +528,7 @@ table.t tr:last-child td{border-bottom:0}
 .slide[data-notes="n12"] .body.two{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
 
 /* logo Aon al pie de cada slide (como en la plantilla) y en la portada */
-html{background:#fff;overflow:hidden}
+html{background:#F4F7F8;overflow:hidden} body{background:var(--bg)}
 .foot{align-items:flex-end}
 .foot::before{content:"";flex:0 0 auto;width:72px;height:28px;margin-right:18px;background:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTkuMjEgMzcuOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgb3ZlcmZsb3c9ImhpZGRlbiI+CjxkZWZzLz48ZyBpZD0iTGF5ZXJfMiI+PGcgaWQ9IkxheWVyXzEtMiI+PHBhdGggZD0iTTE1Ljk2IDAgMCAzNy4wMiA3LjYxIDM3LjAyIDEwLjI0IDMwLjY2IDIzLjc5IDMwLjY2IDIwLjk0IDI0LjEzIDEyLjk0IDI0LjEzIDE4LjkzIDkuNjcgMzAuMjQgMzcuMDIgMzcuODUgMzcuMDIgMjEuODkgMCAxNS45NiAwWiIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50MV9GaWxsX3YyIiBmaWxsPSIjRUIwMDE3Ii8+PHBhdGggZD0iTTkyLjIzIDUuMjkgOTIuMjMgMjQuMTMgNzcuMTQgNS4yOSA3MS4wNiA1LjI5IDcxLjA2IDM3LjAyIDc4LjA1IDM3LjAyIDc4LjA1IDE3LjQ1IDkzLjczIDM3LjAyIDk5LjIxIDM3LjAyIDk5LjIxIDUuMjkgOTIuMjMgNS4yOVoiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDFfRmlsbF92MiIgZmlsbD0iI0VCMDAxNyIvPjxwYXRoIGQ9Ik01MS43OSAzMC43N0M0Ni40ODI3IDMwLjgwODcgNDIuMTQ4OSAyNi41Mzc2IDQyLjExMDMgMjEuMjMwMyA0Mi4wNzE2IDE1LjkyMjkgNDYuMzQyNyAxMS41ODkyIDUxLjY1IDExLjU1MDUgNTYuOTU3MyAxMS41MTE5IDYxLjI5MTEgMTUuNzgyOSA2MS4zMjk3IDIxLjA5MDMgNjEuMzI5OSAyMS4xMTM1IDYxLjMzIDIxLjEzNjggNjEuMzMgMjEuMTYgNjEuMzQxMSAyNi40NDQ3IDU3LjA3NDcgMzAuNzQyNSA1MS43OSAzMC43N001MS43OSA0LjUyQzQyLjYwMDIgNC40NTM3MyAzNS4wOTY3IDExLjg0OTggMzUuMDMwNCAyMS4wMzk2IDM0Ljk2NDIgMzAuMjI5MyA0Mi4zNjAyIDM3LjczMjkgNTEuNTUgMzcuNzk5MSA2MC43Mzk4IDM3Ljg2NTQgNjguMjQzMyAzMC40NjkzIDY4LjMwOTYgMjEuMjc5NiA2OC4zMDk5IDIxLjIzOTcgNjguMzEgMjEuMTk5OSA2OC4zMSAyMS4xNiA2OC4zMzIyIDEyLjAwNzYgNjAuOTQyMyA0LjU2NDA4IDUxLjc5IDQuNTIiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDFfRmlsbF92MiIgZmlsbD0iI0VCMDAxNyIvPjwvZz48L2c+PC9zdmc+") no-repeat left bottom/contain}
 .foot>span:first-of-type{flex:1}
@@ -926,9 +926,10 @@ function fullscreen(){ const el=document.documentElement; try{ if(!document.full
 document.getElementById('fs-btn').addEventListener('click',fullscreen);
 // escala toda la presentación al tamaño de diseño (1600×900): en pantallas más pequeñas o más grandes se ve igual que en la prueba
 const DW=1600, DH=900; let ZOOM=1;
-function fitZoom(){ const w=window.innerWidth, h=window.innerHeight; if(w<760){ ZOOM=1; const r=document.documentElement.style; r.zoom=''; r.transform=''; r.width=''; r.height=''; document.documentElement.classList.add('mob'); return; } document.documentElement.classList.remove('mob'); ZOOM=Math.max(.5, Math.min(w/DW, h/DH)); applyScale(); }
+function fitZoom(){ const w=window.innerWidth, h=window.innerHeight; if(w<760){ ZOOM=1; TX=0; TY=0; const r=document.documentElement.style; r.zoom=''; r.transform=''; r.width=''; r.height=''; document.documentElement.classList.add('mob'); return; } document.documentElement.classList.remove('mob'); ZOOM=Math.max(.5, Math.min(w/DW, h/DH)); applyScale(); }
 // escala con transform (no con zoom): el zoom CSS desplaza el puntero en Edge/Chrome anteriores a 128 y rompe tooltips y clics en los gráficos
-function applyScale(){ const r=document.documentElement.style; r.zoom=''; r.width=DW+'px'; r.height=DH+'px'; r.transformOrigin='0 0'; r.transform='scale('+ZOOM+')'; }
+let TX=0, TY=0;
+function applyScale(){ const r=document.documentElement.style; TX=Math.max(0,(window.innerWidth-DW*ZOOM)/2); TY=Math.max(0,(window.innerHeight-DH*ZOOM)/2); r.zoom=''; r.width=DW+'px'; r.height=DH+'px'; r.transformOrigin='0 0'; r.transform='translate('+TX+'px,'+TY+'px) scale('+ZOOM+')'; }
 fitZoom();
 const Z=()=>ZOOM;
 window.addEventListener('resize',()=>{ fitZoom(); setTimeout(()=>Object.values(charts).forEach(c=>{ const el=c.getDom(); if(el.offsetWidth>0&&el.offsetHeight>0) c.resize(); }),60); });
@@ -1023,7 +1024,7 @@ BUILD[2] = function(){
     const c=Math.floor((ll[0]-grid.lon0)/ST), r=Math.floor((grid.lat0-ll[1])/ST); if(c<0||c>=NC||r<0||r>=NR){ tip.style.display='none'; return; }
     const v=decode(varn+'_m'+(mi+1))[r*NC+c]; if(v===-99){ tip.style.display='none'; return; }
     tip.innerHTML=`<b>${MON[mi]}</b> · ${v===0?'dentro de lo normal':(v<0?LAB[varn].neg:LAB[varn].pos)}<br>${v===0?'':('Frente a lo normal: '+bounds(varn,v)+' '+LAB[varn].u+'<br>')}<span style="color:#5D6D78">${ll[1].toFixed(1)}°, ${ll[0].toFixed(1)}° · ECMWF SEAS5 vía EFFIS/GWIS</span>`;
-    tip.style.display='block'; tip.style.left=(e.event.clientX/Z()+14)+'px'; tip.style.top=(e.event.clientY/Z()+14)+'px'; });
+    tip.style.display='block'; tip.style.left=((e.event.clientX-TX)/Z()+14)+'px'; tip.style.top=((e.event.clientY-TY)/Z()+14)+'px'; });
   zr.on('globalout', ()=>{ tip.style.display='none'; });
   function tick(){ mi=(mi+1)%7; draw(); }
   function setPlay(on){ playing=on; document.getElementById('an-play').textContent=on?'❚❚':'▶'; clearInterval(timer); if(on) timer=setInterval(tick,1100); }
@@ -1107,7 +1108,7 @@ function flowTable(id, cols, rows){
       const d=document.createElement('div'); d.className='ft-card'+(it.cls?' '+it.cls:''); d.style.gridColumn=gc; d.style.gridRow=`${it.r[0]} / ${it.r[1]+1}`;
       d.style.animationDelay=(ci*0.38+ii*0.07)+'s'; if(it.bd){ d.style.borderColor=it.bd; } if(it.bg) d.style.background=it.bg;
       d.innerHTML=(it.k?`<div class="k${it.t?'':' solo'}" style="${it.kc?'color:'+it.kc:''}">${it.k}</div>`:'')+(it.t?`<div class="t">${it.t}</div>`:'')+(it.s?`<div class="s">${it.s}</div>`:'');
-      if(it.d){ d.addEventListener('mousemove',e=>{ tip.style.display='block'; tip.innerHTML=it.d; tip.style.left=(e.clientX/Z()+14)+'px'; tip.style.top=(e.clientY/Z()+14)+'px'; }); d.addEventListener('mouseleave',()=>tip.style.display='none'); }
+      if(it.d){ d.addEventListener('mousemove',e=>{ tip.style.display='block'; tip.innerHTML=it.d; tip.style.left=((e.clientX-TX)/Z()+14)+'px'; tip.style.top=((e.clientY-TY)/Z()+14)+'px'; }); d.addEventListener('mouseleave',()=>tip.style.display='none'); }
       el.appendChild(d);
       if(ci<cols.length-1 && it.arrow!==false){ const a=document.createElement('div'); a.className='ft-arrow'; a.style.gridColumn=gc+1; a.style.gridRow=d.style.gridRow; a.style.animationDelay=(ci*0.38+0.25)+'s';
         a.innerHTML=`<svg viewBox="0 0 30 18" preserveAspectRatio="none"><line x1="0" y1="9" x2="22" y2="9" style="${it.bd?'stroke:'+it.bd:''}"/><path d="M19 4 L25 9 L19 14" style="${it.bd?'stroke:'+it.bd:''}"/></svg>`; el.appendChild(a); }
